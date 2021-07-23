@@ -8,3 +8,18 @@ generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["mongodb"]
 }
+
+model User {
+  id        String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  address   Address @relation(fields: [addressId], references: [id])
+  addressId String  @db.ObjectId
+}
+
+model Address {
+  id      String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  street  String
+  country String
+  User    User?
+}
